@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,15 +33,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                  intent=new Intent(MainActivity.this,AdminActivity.class);
-                  startActivity(intent);
+
+                if(eusername.getText().toString().equals("admin") && epassword.getText().toString().equals("admin"))
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Redirecting...",Toast.LENGTH_SHORT).show();
+                    intent=new Intent(MainActivity.this,AdminActivity.class);
+                    startActivity(intent);
+
+                }
+
+
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "please enter correct username and password",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
             }
         });
 
 
+
+
         txtpass.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_EMAIL , new String[]{"recipient@example.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                i.putExtra(Intent.EXTRA_TEXT , "body of email");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
